@@ -1,0 +1,48 @@
+# Progress Bar
+
+import random, time
+
+BAR = chr(9788)
+
+
+def main():
+    print('Progress Bar Sim')
+    bytesDownload = 0
+    downloadSize = 400
+    while bytesDownload < downloadSize:
+        bytesDownload += random.randint(0, 100)
+
+        barStr = getProgressBar(bytesDownload, downloadSize)
+        print(barStr, end='', flush=True)
+        time.sleep(0.2)
+        print('\b' * len(barStr), end='', flush=True)
+
+
+def getProgressBar(progress, total, barWidth=20):
+    '''Returns a string that represents a progress bar that has barWitdth
+    bars and has progressed progress amount out of a total amount'''
+
+    progressBar = ' '
+    progressBar += '['
+
+    if progress > total:
+        progress = total
+    if progress < 0:
+        progress = 0
+
+    numberOfBars = int((progress / total) * barWidth)
+
+    progressBar += BAR * numberOfBars
+    progressBar += ' ' * (barWidth - numberOfBars)
+    progressBar += ']'
+
+    percentComplete = round(progress / total * 100, 1)
+    progressBar += ' ' + str(percentComplete) + '%'
+
+    #progressBar += ' ' + str(progress) + '/' + str(total) #This show the download file size
+
+    return progressBar
+
+
+if __name__ == '__main__':
+    main()
